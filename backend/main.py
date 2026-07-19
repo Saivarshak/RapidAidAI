@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from fastapi import FastAPI
 import os
 import google.generativeai as genai
@@ -5,10 +6,36 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from PIL import Image
 from io import BytesIO
+=======
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+from PIL import Image
+from io import BytesIO
+import google.generativeai as genai
+import os
+>>>>>>> 5eb2dc2 (Update FastAPI backend)
 
-app = FastAPI()
+# Load environment variables
+load_dotenv()
+
+# Configure Gemini
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.5-flash")
+
+app = FastAPI(title="RapidAid AI Backend")
+
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace with your frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
+<<<<<<< HEAD
 def root():
     return {"message": "RapidAid AI Backend Running"}
 
@@ -29,6 +56,8 @@ app.add_middleware(
 )
 
 @app.get("/")
+=======
+>>>>>>> 5eb2dc2 (Update FastAPI backend)
 async def root():
     return {"message": "RapidAid AI Backend Running"}
 
@@ -36,7 +65,10 @@ async def root():
 async def analyze_image(file: UploadFile = File(...)):
     try:
         image_bytes = await file.read()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5eb2dc2 (Update FastAPI backend)
         image = Image.open(BytesIO(image_bytes))
 
         prompt = """
@@ -63,9 +95,13 @@ Format:
 Do not include markdown or explanations.
 """
 
+<<<<<<< HEAD
         response = model.generate_content(
             [prompt, image]
         )
+=======
+        response = model.generate_content([prompt, image])
+>>>>>>> 5eb2dc2 (Update FastAPI backend)
 
         return {
             "success": True,
@@ -73,6 +109,7 @@ Do not include markdown or explanations.
         }
 
     except Exception as e:
+<<<<<<< HEAD
         raise HTTPException(status_code=500, detail=str(e))
  
  load_dotenv()
@@ -80,3 +117,6 @@ Do not include markdown or explanations.
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 model = genai.GenerativeModel("gemini-2.5-flash")   
+=======
+        raise HTTPException(status_code=500, detail=str(e))
+>>>>>>> 5eb2dc2 (Update FastAPI backend)
