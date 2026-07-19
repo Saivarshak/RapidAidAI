@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Upload - RapidAid AI{% endblock %}
+
+{% block extra_css %}
+.box{background:#fff;padding:30px;border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,.12);width:600px;max-width:95%;margin: 0 auto;}
+h1{text-align:center;color:#0F9D58}
+.drop{border:2px dashed #4285F4;border-radius:12px;padding:50px;text-align:center;color:#666;margin:20px 0}
+input[type=file]{display:block;margin:20px auto}
+.btns{display:flex;gap:10px;justify-content:center}
+.up{background:#0F9D58}
+.note{font-size:13px;color:#777;text-align:center;margin-top:15px}
+{% endblock %}
+
+{% block content %}
+<div class='box'>
+    <h1>Upload Medical Image</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class='drop'>
+            <p>Drag & Drop Image Here</p>
+            <p>or</p>
+            <input type='file' name="image" accept='.jpg,.jpeg,.png,.webp'>
+        </div>
+        <div class='btns display-content-center'>
+            <button type="submit" class='up'>Analyze Image</button>
+        </div>
+    </form>
+    <p class='note'>Supported: JPG, JPEG, PNG, WEBP. AI assessment is not a confirmed medical diagnosis.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Analysis History - RapidAid AI{% endblock %}
+
+{% block extra_css %}
+.container{max-width:1100px;margin:auto;background:#fff;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.12);padding:25px}
+h1{color:#0F9D58;margin-bottom:20px}
+.top-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+input,select{padding:10px;border:1px solid #ccc;border-radius:8px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px;border-bottom:1px solid #e5e5e5;text-align:left}
+th{background:#0F9D58;color:#fff}
+.low{color:#0F9D58;font-weight:bold}.moderate{color:#FB8C00;font-weight:bold}.high{color:#D93025;font-weight:bold}.critical{color:#D93025;font-weight:bold;text-transform:uppercase}
+.action a{text-decoration:none;margin-right:10px;color:#4285F4}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Medical Analysis History</h1>
+    <div class="top-row">
+        <input type="text" placeholder="Search reports...">
+        <select>
+            <option>All Severities</option>
+            <option>Low</option>
+            <option>Moderate</option>
+            <option>High</option>
+            <option>Critical</option>
+        </select>
+        <button class="btn">Search</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Condition</th>
+                <th>Severity</th>
+                <th>Confidence</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scan in scans %}
+            <tr>
+                <td>{{ scan.created_at|date:"d-M-Y" }}</td>
+                <td>{{ scan.detected_issue|truncatechars:30 }}</td>
+                <td class="{{ scan.severity|lower }}">{{ scan.severity }}</td>
+                <td>{{ scan.confidence|floatformat:0 }}%</td>
+                <td class="action">
+                    <a href="#">View</a>
+                    <a href="#">PDF</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align:center">No scan history found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

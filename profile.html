@@ -1,0 +1,95 @@
+{% extends 'main/base.html' %}
+
+{% block title %}User Profile - RapidAid AI{% endblock %}
+
+{% block extra_css %}
+.container-profile{max-width:1000px;margin:auto;background:#fff;border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,.12);padding:30px}
+h1{text-align:center;color:#0F9D58;margin-bottom:25px}
+.grid-profile{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+label{display:block;font-weight:bold;margin-bottom:6px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #ccc;border-radius:8px}
+textarea{resize:vertical}
+.full{grid-column:1/-1}
+.profile-pic{text-align:center;margin-bottom:20px}
+.profile-pic img{width:120px;height:120px;border-radius:50%;background:#ddd;object-fit:cover}
+{% endblock %}
+
+{% block content %}
+<div class="container-profile">
+    <div class="profile-pic">
+        <img src="https://via.placeholder.com/120" alt="Profile">
+    </div>
+    <h1>User Profile</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="grid-profile">
+            <div>
+                <label>Full Name</label>
+                <input type="text" value="{{ user.get_full_name|default:'John Doe' }}">
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" value="{{ user.email }}">
+            </div>
+            <div>
+                <label>Mobile Number</label>
+                <input type="tel" value="+91 9876543210">
+            </div>
+            <div>
+                <label>Age</label>
+                <input type="number" value="28">
+            </div>
+            <div>
+                <label>Gender</label>
+                <select>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div>
+                <label>Blood Group</label>
+                <select>
+                    <option>O+</option>
+                    <option>A+</option>
+                    <option>B+</option>
+                    <option>AB+</option>
+                </select>
+            </div>
+            <div class="full">
+                <label>Medical History</label>
+                <textarea rows="3"></textarea>
+            </div>
+            <div class="full">
+                <label>Allergies</label>
+                <textarea rows="2"></textarea>
+            </div>
+            <div class="full">
+                <label>Current Medications</label>
+                <textarea rows="2"></textarea>
+            </div>
+            <div>
+                <label>Emergency Contact Name</label>
+                <input type="text">
+            </div>
+            <div>
+                <label>Emergency Contact Number</label>
+                <input type="tel">
+            </div>
+            <div>
+                <label>Relationship</label>
+                <input type="text">
+            </div>
+            <div>
+                <label>Insurance Details</label>
+                <input type="text">
+            </div>
+            <div class="full">
+                <label>Address</label>
+                <textarea rows="3"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn" style="width:100%; margin-top:25px">Update Profile</button>
+    </form>
+</div>
+{% endblock %}
