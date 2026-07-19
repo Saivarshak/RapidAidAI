@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RapidAid AI | Home</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===========================
+   GLOBAL
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#F7FAFC;
+    font-family:'Inter',sans-serif;
+    color:#1F2937;
+    overflow-x:hidden;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+.container{
+    width:90%;
+    max-width:1250px;
+    margin:auto;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+nav{
+    background:#fff;
+    padding:18px 0;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:30px;
+    font-family:'Poppins',sans-serif;
+    font-weight:800;
+    color:#0F9D58;
+}
+
+.logo span{
+    color:#4285F4;
+}
+
+.menu{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.menu a{
+    font-weight:600;
+    transition:.3s;
+}
+
+.menu a:hover{
+    color:#0F9D58;
+}
+
+.login-btn{
+    background:#4285F4;
+    color:#fff;
+    padding:10px 22px;
+    border-radius:8px;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    background:#2d7df4;
+}
+
+/* ===========================
+   HERO
+=========================== */
+
+.hero{
+    padding:80px 0;
+}
+
+.hero-wrap{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    gap:60px;
+    align-items:center;
+}
+
+.hero h1{
+    font-family:'Poppins',sans-serif;
+    font-size:55px;
+    line-height:1.2;
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:#0F9D58;
+}
+
+.hero p{
+    font-size:18px;
+    line-height:32px;
+    color:#555;
+    margin-bottom:30px;
+}
+
+.buttons{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    display:inline-block;
+    padding:15px 28px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.primary{
+    background:#0F9D58;
+    color:#fff;
+}
+
+.primary:hover{
+    background:#0b884b;
+}
+
+.secondary{
+    background:#4285F4;
+    color:#fff;
+}
+
+.secondary:hover{
+    background:#2d7df4;
+}
+
+.hero-card{
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+}
+
+.hero-card img{
+    width:100%;
+    border-radius:12px;
+}
+
+/* ===========================
+   UPLOAD SECTION
+=========================== */
+
+.upload-section{
+    padding:70px 0;
+    background:#F7FAFC;
+}
+
+.upload-box{
+    background:#fff;
+    max-width:720px;
+    margin:auto;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+.upload-box h2,
+.upload-box h1{
+    text-align:center;
+    color:#0F9D58;
+    font-family:'Poppins',sans-serif;
+    margin-bottom:25px;
+}
+
+.drop{
+    border:2px dashed #4285F4;
+    border-radius:15px;
+    padding:50px 20px;
+    text-align:center;
+    color:#666;
+    transition:.3s;
+}
+
+.drop:hover{
+    border-color:#0F9D58;
+    background:#F8FBFF;
+}
+
+.drop input[type=file]{
+    display:block;
+    margin:20px auto;
+}
+
+.btns{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:25px;
+}
+
+.btns button{
+    border:none;
+    padding:14px 26px;
+    border-radius:10px;
+    font-size:15px;
+    color:#fff;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.up{
+    background:#0F9D58;
+}
+
+.up:hover{
+    background:#0b884b;
+}
+
+.cam{
+    background:#4285F4;
+}
+
+.cam:hover{
+    background:#2d7df4;
+}
+
+.note{
+    margin-top:20px;
+    text-align:center;
+    color:#777;
+    font-size:13px;
+}
+
+/* ===========================
+   COMMON SECTION
+=========================== */
+
+.section{
+    padding:70px 0;
+}
+
+.title{
+    text-align:center;
+    font-family:'Poppins',sans-serif;
+    font-size:38px;
+    margin-bottom:50px;
+}
+
+/* ===========================
+   FEATURES
+=========================== */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#fff;
+    padding:28px;
+    border-radius:18px;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+    transition:.35s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 12px 28px rgba(0,0,0,.08);
+}
+
+.icon{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.card h3{
+    margin-bottom:12px;
+    font-family:'Poppins',sans-serif;
+}
+
+.card p{
+    color:#666;
+    line-height:28px;
+}
+
+/* ===========================
+   FLOW
+=========================== */
+
+.flow{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:25px;
+}
+
+.step{
+    background:#fff;
+    padding:30px;
+    border-radius:16px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+    transition:.3s;
+}
+
+.step:hover{
+    transform:translateY(-6px);
+}
+
+.step-number{
+    width:50px;
+    height:50px;
+    margin:auto auto 18px;
+    border-radius:50%;
+    background:#0F9D58;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+/* ===========================
+   PAGES
+=========================== */
+
+.pages{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.page{
+    background:#fff;
+    padding:22px;
+    text-align:center;
+    border-radius:16px;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+}
+
+.page a{
+    display:block;
+    margin-top:15px;
+    padding:10px;
+    border-radius:8px;
+    background:#0F9D58;
+    color:#fff;
+    transition:.3s;
+}
+
+.page a:hover{
+    background:#0b884b;
+}
+
+/* ===========================
+   CTA
+=========================== */
+
+.cta{
+    background:linear-gradient(135deg,#0F9D58,#4285F4);
+    padding:70px;
+    border-radius:25px;
+    color:#fff;
+    text-align:center;
+}
+
+.cta h2{
+    font-family:'Poppins',sans-serif;
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.cta p{
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+.white{
+    background:#fff;
+    color:#0F9D58;
+}
+
+.white:hover{
+    background:#f2f2f2;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+footer{
+    margin-top:80px;
+    background:#1F2937;
+    color:#fff;
+    text-align:center;
+    padding:30px;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width:992px){
+
+.hero h1{
+    font-size:46px;
+}
+
+.hero-wrap{
+    gap:40px;
+}
+
+}
+
+@media (max-width:768px){
+
+.navbar{
+    flex-direction:column;
+    gap:15px;
+}
+
+.menu{
+    display:none;
+}
+
+.hero{
+    padding:60px 0;
+}
+
+.hero-wrap{
+    grid-template-columns:1fr;
+    text-align:center;
+}
+
+.hero h1{
+    font-size:38px;
+}
+
+.hero p{
+    font-size:16px;
+    line-height:28px;
+}
+
+.buttons{
+    justify-content:center; 
+}
+
+.title{
+    font-size:30px;
+}
+
+.cta{
+    padding:45px 25px;
+}
+
+.cta h2{
+    font-size:30px;
+}
+
+.upload-box{
+    padding:25px;
+}
+
+.btns{
+    flex-direction:column;
+}
+
+.btns button{
+    width:100%;
+}
+
+}
+
+@media (max-width:480px){
+
+.logo{
+    font-size:24px;
+}
+
+.hero h1{
+    font-size:30px;
+}
+
+.btn{
+    width:100%;
+    text-align:center;
+}
+
+.title{
+    font-size:26px;
+}
+
+.card,
+.step,
+.page{
+    padding:22px;
+}
+
+.upload-box{
+    padding:20px;
+}
+/* ===========================
+   MEDICAL IMAGE UPLOAD SECTION
+=========================== */
+
+.upload-section{
+    padding:80px 0;
+    background:linear-gradient(135deg,#F7FAFC,#EAF6FF);
+}
+
+.upload-box{
+    max-width:760px;
+    margin:auto;
+    background:#ffffff;
+    border-radius:22px;
+    padding:40px;
+    box-shadow:0 15px 40px rgba(15,157,88,.12);
+    border:1px solid rgba(15,157,88,.12);
+}
+
+.upload-box h2{
+    text-align:center;
+    font-family:'Poppins',sans-serif;
+    font-size:34px;
+    color:#0F9D58;
+    margin-bottom:10px;
+}
+
+.upload-box p.subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+    font-size:16px;
+}
+
+/* Upload Area */
+
+.drop{
+    border:3px dashed #4285F4;
+    background:#F8FCFF;
+    border-radius:18px;
+    padding:55px 30px;
+    text-align:center;
+    transition:.35s ease;
+    cursor:pointer;
+}
+
+.drop:hover{
+    background:#EEF8FF;
+    border-color:#0F9D58;
+    transform:translateY(-4px);
+    box-shadow:0 12px 30px rgba(66,133,244,.15);
+}
+
+/* Upload Icon */
+
+.drop i{
+    font-size:70px;
+    color:#4285F4;
+    margin-bottom:20px;
+    display:block;
+}
+
+.drop h3{
+    font-family:'Poppins',sans-serif;
+    color:#1F2937;
+    margin-bottom:10px;
+    font-size:26px;
+}
+
+.drop p{
+    color:#777;
+    font-size:15px;
+    margin-bottom:20px;
+}
+
+.drop input[type=file]{
+    display:block;
+    margin:20px auto 0;
+    padding:12px;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:10px;
+    width:100%;
+    max-width:350px;
+    cursor:pointer;
+}
+
+/* Buttons */
+
+.btns{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.btns button{
+    border:none;
+    border-radius:12px;
+    padding:15px 28px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+/* Note */
+
+.note{
+    margin-top:25px;
+    padding:15px;
+    background:#FFF8E8;
+    border-left:5px solid #FBBC05;
+    border-radius:10px;
+    color:#666;
+    font-size:14px;
+    line-height:1.7;
+}
+
+/* Supported Formats */
+
+.supported{
+    margin-top:25px;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.supported span{
+    background:#E8F5EE;
+    color:#0F9D58;
+    padding:8px 16px;
+    border-radius:25px;
+    font-size:14px;
+    font-weight:600;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.upload-box{
+    padding:25px;
+}
+
+.upload-box h2{
+    font-size:28px;
+}
+
+.drop{
+    padding:40px 20px;
+}
+
+.drop i{
+    font-size:55px;
+}
+
+.btns{
+    flex-direction:column;
+}
+
+.btns button{
+    width:100%;
+}
+
+.supported{
+    gap:8px;
+}
+
+}
+
+}
+
+}
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="container navbar">
+
+<div class="logo">
+Rapid<span>Aid AI</span>
+</div>
+
+<div class="menu">
+
+<a href="home.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="upload.html">Analyze</a>
+<a href="medical-report.html">Reports</a>
+<a href="hospitals.html">Hospitals</a>
+<a href="chatbot.html">AI Chat</a>
+<a href="login.html" class="login-btn">Login</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<section class="hero">
+
+<div class="container hero-wrap">
+
+<div>
+
+<h1>
+
+AI Powered <span>Emergency Medical</span> Image Analysis
+
+</h1>
+
+<p>
+
+Upload an injury or medical image, receive instant AI analysis, assess severity, locate nearby hospitals, notify emergency contacts, and access AI-assisted first-aid guidance—all from a single platform.
+
+</p>
+
+<div class="buttons">
+
+<a href="upload.html" class="btn primary">Analyze Image</a>
+
+<a href="register.html" class="btn secondary">Create Account</a>
+
+</div>
+
+</div>
+
+
+<div class="hero-card">
+
+<img src="https://res.cloudinary.com/ds8lgedtc/image/upload/v1784444202/images_xeffia.jpg">
+
+</div>
+
+</div>
+</section>
+
+<section class="upload-section">
+<div class="container">
+<div class="upload-box">
+<h1>Upload <span>Medical</span> Image</h1>
+<div class='drop'>
+<p>Drag & Drop Image Here</p>
+<p>or</p>
+<input type='file' accept='.jpg,.jpeg,.png,.webp'>
+<button class="btn primary" onclick="window.location.href='analysis.html'">Analiyse image</button>
+</div>
+<p>Supported: JPG, JPEG, PNG, WEBP. AI assessment is not a confirmed medical diagnosis.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="title">
+RapidAid AI Features
+</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="icon">📸</div>
+
+<h3>Image Upload</h3>
+
+<p>Capture or upload injuries directly from your device.</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🤖</div>
+
+<h3>AI Diagnosis</h3>
+
+<p>Automatic image analysis with severity prediction.</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">📄</div>
+
+<h3>Medical Report</h3>
+
+<p>Detailed AI-generated medical report with recommendations.</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🏥</div>
+
+<h3>Nearby Hospitals</h3>
+
+<p>Find nearby specialists and emergency hospitals.</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🚨</div>
+
+<h3>Emergency Alert</h3>
+
+<p>Notify registered family members during emergencies.</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">💬</div>
+
+<h3>AI Chatbot</h3>
+
+<p>24/7 AI medical assistant for first-aid support.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="title">
+
+How RapidAid AI Works
+
+</h2>
+
+<div class="flow">
+
+<div class="step">
+
+<div class="step-number">1</div>
+
+Capture Image
+
+</div>
+
+<div class="step">
+
+<div class="step-number">2</div>
+
+AI Analysis
+
+</div>
+
+<div class="step">
+
+<div class="step-number">3</div>
+
+Medical Report
+
+</div>
+
+<div class="step">
+
+<div class="step-number">4</div>
+
+Doctor Recommendation
+
+</div>
+
+<div class="step">
+
+<div class="step-number">5</div>
+
+Emergency Alerts
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="container">
+
+<div class="cta">
+
+<h2>
+
+Your AI Emergency Healthcare Assistant
+
+</h2>
+
+<p>
+
+Fast. Accurate. Reliable. Get AI-powered emergency medical assistance anytime, anywhere.
+
+</p>
+
+<a href="upload.html" class="btn white">
+
+Start AI Analysis
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 RapidAid AI | Emergency Medical Image Analysis & Smart Healthcare Platform
+
+</footer>
+
+</body>
+</html>

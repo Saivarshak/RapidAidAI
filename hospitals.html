@@ -1,0 +1,54 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Nearby Hospitals - RapidAid AI{% endblock %}
+
+{% block extra_css %}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.card h3{color:#0F9D58;margin-bottom:10px}
+.badge{display:inline-block;background:#0F9D58;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px}
+.info{margin:8px 0;color:#555}
+.actions{display:flex;gap:10px;margin-top:15px}
+.actions a{flex:1;text-align:center;text-decoration:none;color:#fff;padding:10px;border-radius:8px}
+.dir{background:#4285F4}
+.call{background:#EA4335}
+{% endblock %}
+
+{% block content %}
+<h1>Nearby Hospitals</h1>
+<div class="grid">
+    <div class="card">
+        <h3>City General Hospital</h3>
+        <span class="badge">Open 24/7</span>
+        <p class="info"><strong>Distance:</strong> 2.3 km</p>
+        <p class="info"><strong>Rating:</strong> ⭐ 4.6/5</p>
+        <p class="info"><strong>Emergency Room:</strong> Available</p>
+        <div class="actions">
+            <a href="#" class="dir">Directions</a>
+            <a href="tel:+911234567890" class="call">Call</a>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Green Care Medical Center</h3>
+        <span class="badge">Open</span>
+        <p class="info"><strong>Distance:</strong> 4.8 km</p>
+        <p class="info"><strong>Rating:</strong> ⭐ 4.4/5</p>
+        <p class="info"><strong>Emergency Room:</strong> Available</p>
+        <div class="actions">
+            <a href="#" class="dir">Directions</a>
+            <a href="tel:+911234567891" class="call">Call</a>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Rapid Emergency Hospital</h3>
+        <span class="badge">Emergency</span>
+        <p class="info"><strong>Distance:</strong> 6.1 km</p>
+        <p class="info"><strong>Rating:</strong> ⭐ 4.8/5</p>
+        <p class="info"><strong>Emergency Room:</strong> 24/7</p>
+        <div class="actions">
+            <a href="#" class="dir">Directions</a>
+            <a href="tel:+911234567892" class="call">Call</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

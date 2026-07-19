@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Emergency SOS - RapidAid AI{% endblock %}
+
+{% block extra_css %}
+body{background:#fff3f3 !important}
+.card-emergency{max-width:700px;width:100%;background:#fff;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.15);padding:30px;text-align:center;margin:0 auto}
+h1{color:#d93025;font-size:38px}
+.badge-emergency{display:inline-block;background:#d93025;color:#fff;padding:8px 18px;border-radius:20px;margin:15px 0;font-weight:bold}
+p{color:#555;margin:12px 0}
+.grid-emergency{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:20px}
+.red{background:#d93025}.blue{background:#4285F4}.green{background:#0F9D58}.orange{background:#FB8C00}
+.note-emergency{margin-top:20px;font-size:13px;color:#666}
+{% endblock %}
+
+{% block content %}
+<div class="card-emergency">
+    <h1>🚨 Emergency Alert</h1>
+    <div class="badge-emergency">HIGH SEVERITY DETECTED</div>
+    <p>The AI assessment indicates a potentially serious visible condition.</p>
+    <p><strong>Recommended Specialist:</strong> Emergency Physician</p>
+    <p><strong>Nearest Hospital:</strong> City General Hospital (2.3 km)</p>
+    <div class="grid-emergency">
+        <a href="#" class="red btn">Notify Emergency Contact</a>
+        <a href="#" class="blue btn">Share Live Location</a>
+        <a href="{% url 'hospitals' %}" class="green btn">View Nearby Hospitals</a>
+        <a href="tel:108" class="orange btn">Call Ambulance (108)</a>
+    </div>
+    <p class="note-emergency"><strong>Disclaimer:</strong> This AI assessment is not a confirmed medical diagnosis. Emergency alerts should be sent only with user consent unless automatic alerts are enabled.</p>
+</div>
+{% endblock %}
