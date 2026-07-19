@@ -1,4 +1,10 @@
 from fastapi import FastAPI
+import os
+import google.generativeai as genai
+
+from dotenv import load_dotenv
+from PIL import Image
+from io import BytesIO
 
 app = FastAPI()
 
@@ -28,29 +34,49 @@ async def root():
 
 @app.post("/analyze")
 async def analyze_image(file: UploadFile = File(...)):
-    # Validate image type
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="Please upload a valid image.")
-
     try:
-        # Read uploaded file
         image_bytes = await file.read()
 
-        # Open image
         image = Image.open(BytesIO(image_bytes))
 
-        # Get image details
-        width, height = image.size
+        prompt = """
+You are an emergency medical AI assistant.
 
-        # Temporary response (replace later with Gemini AI analysis)
+Analyze the uploaded injury image and return ONLY valid JSON.
+
+Format:
+
+{
+  "injury": "",
+  "severity": "Low | Medium | High",
+  "confidence": "",
+  "description": "",
+  "first_aid": [
+    "",
+    "",
+    ""
+  ],
+  "recommended_specialist": "",
+  "emergency": true
+}
+
+Do not include markdown or explanations.
+"""
+
+        response = model.generate_content(
+            [prompt, image]
+        )
+
         return {
             "success": True,
-            "filename": file.filename,
-            "content_type": file.content_type,
-            "width": width,
-            "height": height,
-            "message": "Image uploaded successfully. Ready for AI analysis."
+            "analysis": response.text
         }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+ 
+ load_dotenv()
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel("gemini-2.5-flash")   
