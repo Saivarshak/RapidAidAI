@@ -1,22 +1,17 @@
-fastapi==0.116.1
-uvicorn[standard]==0.35.0
-python-multipart==0.0.20
-python-dotenv==1.1.1
-requests==2.32.4
-pydantic==2.11.7
-pillow==11.3.0
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+requests
+httpx
+pillow
+aiofiles
+jinja2
 
-google-generativeai==0.8.5
+google-generativeai
 
-supabase==2.18.1
-postgrest==1.1.1
+supabase
 
-reportlab==4.4.3
+reportlab
 
-geopy==2.4.1
-
-httpx==0.28.1
-
-jinja2==3.1.6
-
-aiofiles==24.1.0
+geopy
