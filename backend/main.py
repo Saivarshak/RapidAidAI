@@ -3,24 +3,30 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from PIL import Image
 from io import BytesIO
-from google import genai
+import google.generativeai as genai
 import os
+import json
 
 # Load environment variables
 load_dotenv()
 
-# Create Gemini client
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    raise RuntimeError("GEMINI_API_KEY environment variable not found.")
+
+genai.configure(api_key=api_key)
+
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 app = FastAPI(title="RapidAid AI Backend")
 
-# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://saivarshak.github.io"
+        "https://saivarshak.github.io",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -30,26 +36,31 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "RapidAid AI Backend Running"}
+    return {
+        "status": "success",
+        "message": "RapidAid AI Backend Running"
+    }
 
 
 @app.post("/analyze")
 async def analyze_image(file: UploadFile = File(...)):
     try:
+
         image_bytes = await file.read()
+
         image = Image.open(BytesIO(image_bytes))
 
         prompt = """
 You are an emergency medical AI assistant.
 
-Analyze the uploaded injury image.
+Analyze the injury image.
 
 Return ONLY valid JSON.
 
 {
   "injury":"",
-  "severity":"Low | Medium | High",
-  "confidence":"",
+  "severity":"Low",
+  "confidence":"95%",
   "description":"",
   "first_aid":[
       "",
@@ -61,14 +72,26 @@ Return ONLY valid JSON.
 }
 """
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=[prompt, image]
-        )
+        response = model.generate_content([prompt, image])
+
+        text = response.text.strip()
+
+        if text.startswith("```json"):
+            text = text.replace("```json", "").replace("```", "").strip()
+
+        elif text.startswith("```"):
+            text = text.replace("```", "").strip()
+
+        try:
+            result = json.loads(text)
+        except:
+            result = {
+                "raw_response": text
+            }
 
         return {
             "success": True,
-            "analysis": response.text
+            "analysis": result
         }
 
     except Exception as e:
@@ -76,3 +99,5 @@ Return ONLY valid JSON.
             status_code=500,
             detail=str(e)
         )
+
+print("API KEY:", api_key)        
