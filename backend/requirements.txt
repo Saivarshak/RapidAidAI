@@ -8,7 +8,7 @@ pillow
 aiofiles
 jinja2
 
-google-generativeai
+google-generativeai>=0.8.5
 
 supabase
 
