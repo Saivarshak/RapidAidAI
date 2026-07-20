@@ -17,7 +17,7 @@ api_key = os.getenv("GEMINI_API_KEY")
 if not api_key:
     raise RuntimeError("GEMINI_API_KEY environment variable not found.")
 
-MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
 
 client = genai.Client(api_key=api_key)
 
@@ -69,11 +69,28 @@ async def debug():
     }
 
 # ==========================
+# Test Gemini
+# ==========================
+
+@app.get("/test")
+async def test():
+
+    response = client.models.generate_content(
+        model=MODEL_NAME,
+        contents="Say Hello"
+    )
+
+    return {
+        "response": response.text
+    }
+
+# ==========================
 # Analyze Image
 # ==========================
 
 @app.post("/analyze")
 async def analyze_image(file: UploadFile = File(...)):
+
     try:
 
         if not file.content_type.startswith("image/"):
@@ -83,58 +100,44 @@ async def analyze_image(file: UploadFile = File(...)):
             )
 
         image_bytes = await file.read()
-        
-@app.get("/test")
-async def test():
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents="Say hello"
-    )
-    return {"response": response.text}        
-
 
         prompt = """
-You are RapidAid AI, an emergency first-aid assistant.
+You are RapidAid AI.
 
-Analyze the uploaded injury image carefully.
+Analyze the injury image.
 
-Return ONLY valid JSON.
-
-JSON format:
+Return ONLY JSON.
 
 {
-  "injury": "",
-  "severity": "Low/Medium/High",
-  "confidence": "",
-  "description": "",
-  "first_aid": [
+  "injury":"",
+  "severity":"Low/Medium/High",
+  "confidence":"",
+  "description":"",
+  "first_aid":[
     "",
     "",
     ""
   ],
-  "recommended_specialist": "",
-  "emergency": true
+  "recommended_specialist":"",
+  "emergency":true
 }
-
-Rules:
-- Do NOT give a final medical diagnosis.
-- Only provide first-aid guidance.
-- Recommend medical attention whenever appropriate.
 """
 
         response = client.models.generate_content(
-    model=MODEL_NAME,
-    contents=[
-        prompt,
-        types.Part.from_bytes(
-            data=image_bytes,
-            mime_type=file.content_type,
-        ),
-    ],
-    config=types.GenerateContentConfig(
-        response_mime_type="application/json"
-    ),
-)
+            model=MODEL_NAME,
+            contents=[
+                prompt,
+                types.Part.from_bytes(
+                    data=image_bytes,
+                    mime_type=file.content_type
+                )
+            ],
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json"
+            )
+        )
+
+        text = response.text.strip()
 
         try:
             analysis = json.loads(text)
@@ -152,6 +155,7 @@ Rules:
         raise
 
     except Exception as e:
+
         print("Gemini Error:", str(e))
 
         raise HTTPException(
@@ -164,6 +168,7 @@ Rules:
 # ==========================
 
 if __name__ == "__main__":
+
     import uvicorn
 
     uvicorn.run(
