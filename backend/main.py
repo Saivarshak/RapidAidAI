@@ -7,24 +7,48 @@ import google.generativeai as genai
 import os
 import json
 
+
 # Load environment variables
 load_dotenv()
 
-# Gemini API Key
+
+# ==========================
+# Gemini Configuration
+# ==========================
+
 api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
-    raise RuntimeError("GEMINI_API_KEY environment variable not found.")
+    raise RuntimeError(
+        "GEMINI_API_KEY environment variable not found."
+    )
 
 genai.configure(api_key=api_key)
 
-MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
+# Gemini model
+MODEL_NAME = os.getenv(
+    "GEMINI_MODEL",
+    "gemini-2.5-flash-lite"
+)
+
 model = genai.GenerativeModel(MODEL_NAME)
 
-# FastAPI App
-app = FastAPI(title="RapidAid AI Backend")
 
-# CORS Configuration
+# ==========================
+# FastAPI Application
+# ==========================
+
+app = FastAPI(
+    title="RapidAid AI Backend",
+    version="1.0"
+)
+
+
+# ==========================
+# CORS
+# ==========================
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -38,6 +62,10 @@ app.add_middleware(
 )
 
 
+# ==========================
+# Home Route
+# ==========================
+
 @app.get("/")
 async def root():
     return {
@@ -46,70 +74,152 @@ async def root():
     }
 
 
+# ==========================
+# AI Image Analysis API
+# ==========================
+
 @app.post("/analyze")
 async def analyze_image(file: UploadFile = File(...)):
+
     try:
-        # Read uploaded image
+
+        # Check file type
+        if not file.content_type.startswith("image/"):
+            raise HTTPException(
+                status_code=400,
+                detail="Only image files are allowed"
+            )
+
+
+        # Read image
         image_bytes = await file.read()
-        image = Image.open(BytesIO(image_bytes))
 
-        prompt = """
-You are an emergency medical AI assistant.
-
-Analyze the injury image.
-
-Return ONLY valid JSON.
-
-{
-  "injury":"",
-  "severity":"Low",
-  "confidence":"95%",
-  "description":"",
-  "first_aid":[
-      "",
-      "",
-      ""
-  ],
-  "recommended_specialist":"",
-  "emergency":true
-}
-"""
-
-        response = model.generate_content([prompt, image])
-
-        text = response.text.strip()
-
-        # Remove Markdown formatting if Gemini returns it
-        if text.startswith("```json"):
-            text = text.replace("```json", "").replace("```", "").strip()
-        elif text.startswith("```"):
-            text = text.replace("```", "").strip()
-
-        try:
-            result = json.loads(text)
-        except Exception:
-            result = {
-                "raw_response": text
-            }
-
-        return {
-            "success": True,
-            "analysis": result
-        }
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
+        image = Image.open(
+            BytesIO(image_bytes)
         )
 
 
+        prompt = """
+You are RapidAid AI, an emergency first-aid assistant.
+
+Analyze the uploaded injury image carefully.
+
+Return ONLY valid JSON.
+
+Do not use markdown.
+Do not add explanations outside JSON.
+
+JSON format:
+
+{
+  "injury": "",
+  "severity": "Low/Medium/High",
+  "confidence": "",
+  "description": "",
+  "first_aid": [
+    "",
+    "",
+    ""
+  ],
+  "recommended_specialist": "",
+  "emergency": true
+}
+
+Important:
+- Do not give a final medical diagnosis.
+- Provide emergency guidance only.
+- Recommend professional medical help when needed.
+"""
+
+
+        # Gemini request
+        response = model.generate_content(
+            [
+                prompt,
+                image
+            ]
+        )
+
+
+        text = response.text.strip()
+
+
+        # Remove markdown if Gemini returns it
+        if "```json" in text:
+            text = (
+                text
+                .replace("```json", "")
+                .replace("```", "")
+                .strip()
+            )
+
+        elif "```" in text:
+            text = (
+                text
+                .replace("```", "")
+                .strip()
+            )
+
+
+        # Convert JSON response
+        try:
+
+            analysis_result = json.loads(text)
+
+        except Exception:
+
+            analysis_result = {
+                "raw_response": text
+            }
+
+
+        return {
+
+            "success": True,
+
+            "analysis": analysis_result
+
+        }
+
+
+    except HTTPException:
+
+        raise
+
+
+    except Exception as e:
+
+        print(
+            "Gemini Error:",
+            str(e)
+        )
+
+        raise HTTPException(
+
+            status_code=500,
+
+            detail=str(e)
+
+        )
+
+
+
+# ==========================
+# Run Server
+# ==========================
+
 if __name__ == "__main__":
+
     import uvicorn
 
     uvicorn.run(
+
         "main:app",
+
         host="0.0.0.0",
+
         port=8000,
+
         reload=True
+
     )
