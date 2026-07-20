@@ -10,6 +10,7 @@ import json
 # Load environment variables
 load_dotenv()
 
+# Gemini API Key
 api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
@@ -20,31 +21,22 @@ genai.configure(api_key=api_key)
 MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 model = genai.GenerativeModel(MODEL_NAME)
 
+# FastAPI App
 app = FastAPI(title="RapidAid AI Backend")
 
+# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://saivarshak.github.io",
         "http://localhost:5500",
-        "http://127.0.0.1:5500"
+        "http://127.0.0.1:5500",
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-from fastapi.middleware.cors import CORSMiddleware
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "https://saivarshak.github.io"
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.get("/")
 async def root():
@@ -57,9 +49,8 @@ async def root():
 @app.post("/analyze")
 async def analyze_image(file: UploadFile = File(...)):
     try:
-
+        # Read uploaded image
         image_bytes = await file.read()
-
         image = Image.open(BytesIO(image_bytes))
 
         prompt = """
@@ -88,15 +79,15 @@ Return ONLY valid JSON.
 
         text = response.text.strip()
 
+        # Remove Markdown formatting if Gemini returns it
         if text.startswith("```json"):
             text = text.replace("```json", "").replace("```", "").strip()
-
         elif text.startswith("```"):
             text = text.replace("```", "").strip()
 
         try:
             result = json.loads(text)
-        except:
+        except Exception:
             result = {
                 "raw_response": text
             }
@@ -112,4 +103,13 @@ Return ONLY valid JSON.
             detail=str(e)
         )
 
-print("API KEY:", api_key)        
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True
+    )
