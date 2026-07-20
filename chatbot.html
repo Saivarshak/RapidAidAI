@@ -1,45 +1,61 @@
-{% extends 'main/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RapidAid AI Chat Assistant</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#eef5f9;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.chat{width:900px;max-width:100%;height:700px;background:#fff;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.15);display:flex;flex-direction:column;overflow:hidden}
+.header{background:#0F9D58;color:#fff;padding:18px;text-align:center;font-size:22px;font-weight:bold}
+.messages{flex:1;padding:20px;overflow-y:auto;background:#f8fbfd}
+.msg{max-width:75%;padding:12px 16px;border-radius:12px;margin-bottom:14px;line-height:1.5}
+.bot{background:#e8f5e9;color:#222}
+.user{background:#4285F4;color:#fff;margin-left:auto}
+.footer{display:flex;padding:15px;background:#fff;border-top:1px solid #ddd}
+.footer input{flex:1;padding:12px;border:1px solid #ccc;border-radius:8px}
+.footer button{margin-left:10px;padding:12px 18px;border:none;background:#0F9D58;color:#fff;border-radius:8px;cursor:pointer}
+.note{padding:10px 20px;font-size:12px;color:#666;background:#f2f2f2}
+</style>
+</head>
+<body>
 
-{% block title %}AI Chat Assistant - RapidAid AI{% endblock %}
+<div class="chat">
 
-{% block extra_css %}
-.chat-container{width:900px;max-width:100%;height:600px;background:#fff;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.15);display:flex;flex-direction:column;overflow:hidden;margin: 0 auto;}
-.header-chat{background:#0F9D58;color:#fff;padding:18px;text-align:center;font-size:22px;font-weight:bold}
-.messages-chat{flex:1;padding:20px;overflow-y:auto;background:#f8fbfd}
-.msg-chat{max-width:75%;padding:12px 16px;border-radius:12px;margin-bottom:14px;line-height:1.5}
-.bot-chat{background:#e8f5e9;color:#222}
-.user-chat{background:#4285F4;color:#fff;margin-left:auto}
-.footer-chat{display:flex;padding:15px;background:#fff;border-top:1px solid #ddd}
-.footer-chat input{flex:1;padding:12px;border:1px solid #ccc;border-radius:8px}
-.footer-chat button{margin-left:10px;padding:12px 18px;border:none;background:#0F9D58;color:#fff;border-radius:8px;cursor:pointer}
-.note-chat{padding:10px 20px;font-size:12px;color:#666;background:#f2f2f2}
-{% endblock %}
-
-{% block content %}
-<div class="chat-container">
-    <div class="header-chat">
-        🤖 RapidAid AI Medical Assistant
-    </div>
-    <div class="messages-chat">
-        <div class="msg-chat bot-chat">
-            Hello! I'm RapidAid AI Assistant.<br><br>
-            I can help explain your AI medical report, recommend which type of doctor to consult, discuss general first-aid information, and help you understand next steps.<br><br>
-            Please remember that my assessment is not a confirmed medical diagnosis.
-        </div>
-        <div class="msg-chat user-chat">
-            What does my report mean?
-        </div>
-        <div class="msg-chat bot-chat">
-            Your uploaded image was assessed as a <strong>Medium Severity</strong> skin condition with an estimated confidence of <strong>78%</strong>.<br><br>
-            Based only on the image, consulting a dermatologist within 24 hours is recommended if symptoms persist or worsen.
-        </div>
-    </div>
-    <div class="note-chat">
-        AI responses are informational only and should not replace professional medical advice. Seek emergency care immediately for severe symptoms.
-    </div>
-    <div class="footer-chat">
-        <input type="text" placeholder="Ask a medical question...">
-        <button class="btn">Send</button>
-    </div>
+<div class="header">
+🤖 RapidAid AI Medical Assistant
 </div>
-{% endblock %}
+
+<div class="messages">
+
+<div class="msg bot">
+Hello! I'm RapidAid AI Assistant.<br><br>
+I can help explain your AI medical report, recommend which type of doctor to consult, discuss general first-aid information, and help you understand next steps.<br><br>
+Please remember that my assessment is not a confirmed medical diagnosis.
+</div>
+
+<div class="msg user">
+What does my report mean?
+</div>
+
+<div class="msg bot">
+Your uploaded image was assessed as a <strong>Medium Severity</strong> skin condition with an estimated confidence of <strong>78%</strong>.<br><br>
+Based only on the image, consulting a dermatologist within 24 hours is recommended if symptoms persist or worsen.
+</div>
+
+</div>
+
+<div class="note">
+AI responses are informational only and should not replace professional medical advice. Seek emergency care immediately for severe symptoms.
+</div>
+
+<div class="footer">
+<input type="text" placeholder="Ask a medical question...">
+<button>Send</button>
+</div>
+
+</div>
+
+</body>
+</html>

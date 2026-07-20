@@ -1,27 +1,23 @@
-{% extends 'main/base.html' %}
-
-{% block title %}AI Analysis - RapidAid AI{% endblock %}
-
-{% block extra_css %}
-.card-analysis{background:#fff;width:650px;max-width:95%;padding:30px;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,.15);margin: 0 auto;}
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Analysis</title>
+<style>
+body{margin:0;font-family:Arial;background:#eef6f9;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.card{background:#fff;width:650px;max-width:95%;padding:30px;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,.15)}
 h1{text-align:center;color:#0F9D58}
-.progress-analysis{height:14px;background:#ddd;border-radius:20px;overflow:hidden;margin:20px 0}
-.bar-analysis{height:100%;width:78%;background:#0F9D58;animation:load 2s}
+.progress{height:14px;background:#ddd;border-radius:20px;overflow:hidden;margin:20px 0}
+.bar{height:100%;width:78%;background:#0F9D58;animation:load 2s}
 @keyframes load{from{width:0}to{width:78%}}
-.item-analysis{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
-.badge-analysis{padding:6px 12px;border-radius:20px;background:#FBBC05;color:#000;font-weight:bold}
-{% endblock %}
-
-{% block content %}
-<div class="card-analysis">
-    <h1>AI Medical Image Analysis</h1>
-    <div class="progress-analysis"><div class="bar-analysis"></div></div>
-    <div class="item-analysis"><span>Status</span><span>Analysis Complete</span></div>
-    <div class="item-analysis"><span>Possible Condition</span><span>Skin Inflammation</span></div>
-    <div class="item-analysis"><span>Confidence Score</span><span>78%</span></div>
-    <div class="item-analysis"><span>Severity</span><span class="badge-analysis">MEDIUM</span></div>
-    <div class="item-analysis"><span>Recommended Specialist</span><span>Dermatologist</span></div>
-    <p style="margin-top:20px"><b>Notice:</b> This AI assessment is not a confirmed medical diagnosis. Please consult a qualified healthcare professional, especially for medium- or high-risk findings.</p>
-    <button class="btn" style="width:100%" onclick="location.href='{% url 'medical_report' %}'">View Medical Report</button>
-</div>
-{% endblock %}
+.item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
+.badge{padding:6px 12px;border-radius:20px;background:#FBBC05;color:#000;font-weight:bold}
+button{margin-top:20px;width:100%;padding:12px;border:none;background:#4285F4;color:#fff;border-radius:8px}
+</style></head><body>
+<div class="card">
+<h1>AI Medical Image Analysis</h1>
+<div class="progress"><div class="bar"></div></div>
+<div class="item"><span>Status</span><span>Analysis Complete</span></div>
+<div class="item"><span>Possible Condition</span><span>Skin Inflammation</span></div>
+<div class="item"><span>Confidence Score</span><span>78%</span></div>
+<div class="item"><span>Severity</span><span class="badge">MEDIUM</span></div>
+<div class="item"><span>Recommended Specialist</span><span>Dermatologist</span></div>
+<p><b>Notice:</b> This AI assessment is not a confirmed medical diagnosis. Please consult a qualified healthcare professional, especially for medium- or high-risk findings.</p>
+<button>View Medical Report</button>
+</div></body></html>
