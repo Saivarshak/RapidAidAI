@@ -83,6 +83,14 @@ async def analyze_image(file: UploadFile = File(...)):
             )
 
         image_bytes = await file.read()
+        
+@app.get("/test")
+async def test():
+    response = client.models.generate_content(
+        model=MODEL_NAME,
+        contents="Say hello"
+    )
+    return {"response": response.text}        
 
 
         prompt = """
