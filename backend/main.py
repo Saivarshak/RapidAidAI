@@ -99,6 +99,7 @@ async def analyze_image(file: UploadFile = File(...)):
         )
 
 
+
         prompt = """
 You are RapidAid AI, an emergency first-aid assistant.
 
@@ -223,3 +224,10 @@ if __name__ == "__main__":
         reload=True
 
     )
+@app.get("/debug")
+async def debug():
+    return {
+        "model": MODEL_NAME,
+        "env": os.getenv("GEMINI_MODEL")
+    }
+    
