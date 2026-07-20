@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from PIL import Image
 from io import BytesIO
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import os
 import json
 
@@ -23,16 +24,12 @@ if not api_key:
         "GEMINI_API_KEY environment variable not found."
     )
 
-genai.configure(api_key=api_key)
+client = genai.Client(api_key=api_key)
 
-
-# Gemini model
 MODEL_NAME = os.getenv(
     "GEMINI_MODEL",
-    "gemini-2.5-flash-lite"
+    "gemini-2.5-flash"
 )
-
-model = genai.GenerativeModel(MODEL_NAME)
 
 
 # ==========================
@@ -133,16 +130,18 @@ Important:
 """
 
 
-        # Gemini request
-        response = model.generate_content(
-            [
-                prompt,
-                image
-            ]
-        )
+     response = client.models.generate_content(
+    model=MODEL_NAME,
+    contents=[
+        prompt,
+        image
+    ],
+    config=types.GenerateContentConfig(
+        response_mime_type="application/json"
+    )
+)
 
-
-        text = response.text.strip()
+text = response.text.strip()
 
 
         # Remove markdown if Gemini returns it

@@ -7,7 +7,7 @@ httpx
 pillow
 aiofiles
 jinja2
-google-generativeai==0.8.6
+google-genai>=1.30.0
 supabase
 reportlab
 geopy
