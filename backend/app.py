@@ -5,6 +5,7 @@ import google.generativeai as genai
 load_dotenv()
 
 api_key = os.getenv("GEMINI_API_KEY")
+print("API Key:", api_key)
 
 if not api_key:
     print("❌ GEMINI_API_KEY not found")
@@ -22,3 +23,4 @@ try:
             print(model.name)
 except Exception as e:
     print("Error:", e)
+
