@@ -1,8 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from PIL import Image
-from io import BytesIO
 from google import genai
 from google.genai import types
 import os
@@ -86,7 +84,6 @@ async def analyze_image(file: UploadFile = File(...)):
 
         image_bytes = await file.read()
 
-        image = Image.open(BytesIO(image_bytes))
 
         prompt = """
 You are RapidAid AI, an emergency first-aid assistant.
@@ -118,17 +115,18 @@ Rules:
 """
 
         response = client.models.generate_content(
-            model=MODEL_NAME,
-            contents=[
-                prompt,
-                image
-            ],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json"
-            )
-        )
-
-        text = response.text.strip()
+    model=MODEL_NAME,
+    contents=[
+        prompt,
+        types.Part.from_bytes(
+            data=image_bytes,
+            mime_type=file.content_type,
+        ),
+    ],
+    config=types.GenerateContentConfig(
+        response_mime_type="application/json"
+    ),
+)
 
         try:
             analysis = json.loads(text)
